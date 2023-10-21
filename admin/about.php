@@ -3,31 +3,19 @@ session_start();
 
 @include 'db_conn.php';
 
-if(isset($_POST['add_product'])){
+if(isset($_POST['submit'])){
+    $ab_content = $_POST['about'];
 
-   $product_image = $_FILES['product_image']['name'];
-   $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
-   $product_image_folder = 'uploaded_img/'.$product_image;
+    $sql = "INSERT INTO `about` (content) 
+    values('$ab_content')";
+    $result = mysqli_query($conn,$sql);
+    if($result){
+        echo "data is inserted Successfully";
+    }else{
+        die(mysqli_error($conn));
+    }
 
-   if(empty($product_image)){
-      $message[] = 'please fill out all';
-   }else{
-      $insert = "INSERT INTO gallery( image) VALUES('$product_image')";
-      $upload = mysqli_query($conn,$insert);
-      if($upload){
-         move_uploaded_file($product_image_tmp_name, $product_image_folder);
-         $message[] = 'new product added successfully';
-      }else{
-         $message[] = 'could not add the product';
-      }
-   }
-
-};
-
-if(isset($_GET['delete'])){
-   $id = $_GET['delete'];
-   mysqli_query($conn, "DELETE FROM gallery WHERE id = $id");
-   header('location:blank-page.php');
+  
 };
 
 ?>
@@ -242,7 +230,7 @@ if(isset($_GET['delete'])){
                 <i class="mdi mdi-contacts menu-icon"></i>
               </a>
             </li>
-
+           
             <li class="nav-item">
               <a class="nav-link" href="./about.php">
                 <span class="menu-title">About</span>
@@ -277,7 +265,7 @@ if(isset($_GET['delete'])){
                         <h4 class="card-title">Images Table</h4>
                       </div>
                       <div class="col-6">
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add Images</button>
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add Content</button>
                       </div>
                     </div>
                     <!--Pop up form start-->
@@ -289,12 +277,12 @@ if(isset($_GET['delete'])){
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                              <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+                              <form action="" method="POST">
                                 <div class="mb-3">
-                                  <label for="recipient-name" class="col-form-label">Upload image</label>
-                                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="product_image" class="form-control box" required>
+                                  <label for="recipient-name" class="col-form-label">Change About Us Content</label>
+                                  <textarea type="text" name="about" class="form-control box" required></textarea>
                                   <br>
-                                  <input type="submit" name="add_product" class="btn btn-primary" value="Upload Image">
+                                  <input type="submit" name="submit" class="btn btn-primary" value="Change Content">
                                 </div>
                               </form>
                             </div>
@@ -306,36 +294,41 @@ if(isset($_GET['delete'])){
                       </div>
                       <!--Pop up form end-->
 
-                      <?php
-
-                        $select = mysqli_query($conn, "SELECT * FROM gallery");
-                        
-                      ?>
                     
                     <table class="table table-striped">
                       <thead>
                         
                         <tr>
-                          <th> images </th>
+                          <th> Id </th>
+                          <th> Content </th>
                         </tr>
                       </thead>
-                      <?php while($row = mysqli_fetch_assoc($select)){ ?>
-                      <tbody>
                      
-                        <tr>
-                          <td class="py-1">
-                          <img src="uploaded_img/<?php echo $row['image']; ?>" height="100" alt="">
-                          </td>
-                          <td>
-                             <a href="admin_update.php?edit=<?php echo $row['id']; ?>" class="btn"> <i class="fas fa-edit"></i> edit </a>
-                          </td>
-                          <td>
-                          <a href="blank-page.php?delete=<?php echo $row['id']; ?>" class="btn"> <i class="fas fa-trash"></i> delete </a>
-                          </td>
-                        </tr>
+                     
+                      <tbody>
+
+                      <?php
+                        $sql = "SELECT * FROM `about`";
+                        $result = mysqli_query($conn,$sql);
+                        if($result){
+                           while($row = mysqli_fetch_assoc($result)){
+                            $id = $row['id'];
+                            $content = $row['content'];
+
+                            echo'<tr>
+                            <td>'.$id.'</td>
+                            <td>'.$content.'</td>
+                           
+                          </tr>';
+                           }
+                        }
+                      ?>
+                      
+                        
+                        
                         
                       </tbody>
-                      <?php } ?>
+                        
                     </table>
                   </div>
                 </div>

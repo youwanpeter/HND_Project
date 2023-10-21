@@ -1,13 +1,7 @@
 <?php
 
-$sname= "localhost";
-$unmae= "root";
-$password = "";
-
-$db_name = "test_db";
-
-$conn = mysqli_connect($sname, $unmae, $password, $db_name);
+$conn =new mysqli('localhost','root','', 'hnd');
 
 if (!$conn) {
-	echo "Connection failed!";
+	die(mysqli_error($conn));
 }
