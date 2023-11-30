@@ -19,7 +19,7 @@ if(isset($_POST['update_product'])){
 
       if($upload){
          move_uploaded_file($product_image_tmp_name, $product_image_folder);
-         header('location:blank-page.php');
+         header('location:gallery.php');
       }else{
          $$message[] = 'please fill out all!'; 
       }
@@ -63,7 +63,7 @@ if(isset($_POST['update_product'])){
       <h3 class="title">update the product</h3>
       <input type="file" class="box" name="product_image"  accept="image/png, image/jpeg, image/jpg">
       <input type="submit" value="update product" name="update_product" class="btn">
-      <a href="admin_page.php" class="btn">go back!</a>
+      <a href="gallery.php" class="btn">go back!</a>
    </form>
    
 

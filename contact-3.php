@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en-US">
 	<head>
@@ -256,7 +258,7 @@
 			<div class="topsingleimg"> <img src="images/pages/contact-page.jpg" alt="" width="1920" height="1080"></div>
 			<div class="inner-desc">
 				<div class="container">
-					<h1 class="display-2 single-post-title"> Contact 3</h1>
+					<h1 class="display-2 single-post-title"> Contact Us</h1>
 					<span class="post-subtitle"> We're here to catch your event</span>
 				</div>
 			</div>
@@ -313,11 +315,24 @@
 						<div class="col-lg-6 same-height section-background">
 							<div class="padding-50">
 								<div id="contact-form-holder">
-									<form method="post" id="contact-form" action='include/contact-process.php'>
+								
+									<form method="post" id="contact-form" action='con-data-in.php'>
 										<div class="row">
 											<div class="col-md-4 margin-b30"><input type="text" name="name" class="comm-field" placeholder="Name" /></div>
-											<div class="col-md-4 margin-b30"><input type="text" name="email" class="comm-field" placeholder="Email" /> </div>
-											<div class="col-md-4 margin-b30"><input type="text" name="phone" class="comm-field" placeholder="Phone" /> </div>
+											<div class="col-md-4 margin-b30"><input type="email" name="email" class="comm-field" placeholder="Email" /> </div>
+											<div class="col-md-4 margin-b30"><input type="text" name="contact" class="comm-field" placeholder="Phone" /> </div>
+											<div class="col-md-6 margin-b30">
+												<select name="function" id="" class="comm-field" >
+													<option value="">Select A Function Type</option>
+													<option value="Wedding">Wedding</option>
+													<option value="Birthday Party">Birthday Party</option>
+													<option value="Portraits">Portraits</option>
+													<option value="Special Events">Special Events</option>
+												</select>
+											</div>
+											<div class="col-md-6 margin-b30"><input type="text" name="location" class="comm-field" placeholder="Location" /> </div>
+											<div class="col-md-12 margin-b30"><input type="datetime-local" name="funcdate" class="comm-field" placeholder="Function Date" /> </div>
+											
 										</div>
 										<div class="margin-b30"><textarea name="message" id="msg-contact" rows="5" placeholder="Message"></textarea></div>
 										<p class="antispam">Leave this empty: <input type="text" name="url" /></p>

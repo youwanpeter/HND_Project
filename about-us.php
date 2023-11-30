@@ -1,3 +1,9 @@
+<?php
+session_start();
+error_reporting(0);
+
+include('db_conn.php');
+?>
 <!DOCTYPE html>
 <html lang="en-US">
 	<head>
@@ -369,10 +375,27 @@
 				<div class="container">
 					<div class="row align-items-center">
 						<div class="col-lg-6 order2">
+						
 							<div class="el-smalltitle">About</div>
-							<h2 class="display-4 margin-b30">Meet the Crew</h2>
-							<p>Veri ubique cu eam, vero dicta ridens ei quo, ex putent menandri accommodare sed. Suscipit lobortis prodesset ut eam. Sale dicta dolore pri et, an aliquam albucius volutpat est.</p>
-							<p>Ad graeci theophrastus, libris timeam sapientem. Pellentes faucibus sollicitudin ante,at porta felisrutrum eget. Sed ut nisl urna,e get convallis purus pretium facilisis. Interdum et malesuada varius mauris eu commodo.</p>
+							<?php
+							$sql = "SELECT PageTitle, PageDescription FROM about";
+							$result = $conn->query($sql);
+							if($result->num_rows > 0){
+								
+								//output data for each row 
+								while ($row = $result->fetch_assoc()){
+									
+								
+								
+									
+					
+							$conn->close();
+							?>
+							<h2 class="display-4 margin-b30"><?php echo $row ["PageTitle"]?></h2>
+							<p><?php echo $row ["PageDescription"]?></p>
+
+							<?php } }?>
+							
 						</div>
 						<!-- /col-lg-6 -->
 						<div class="col-lg-6 order1 margin-bm50">

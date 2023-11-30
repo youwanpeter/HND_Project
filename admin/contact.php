@@ -1,36 +1,10 @@
-<?php
+<?php 
+@include 'db_conn.php';
 session_start();
 
-@include 'db_conn.php';
+if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
-if(isset($_POST['add_product'])){
-
-   $product_image = $_FILES['product_image']['name'];
-   $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
-   $product_image_folder = 'uploaded_img/'.$product_image;
-
-   if(empty($product_image)){
-      $message[] = 'please fill out all';
-   }else{
-      $insert = "INSERT INTO gallery( image) VALUES('$product_image')";
-      $upload = mysqli_query($conn,$insert);
-      if($upload){
-         move_uploaded_file($product_image_tmp_name, $product_image_folder);
-         $message[] = 'new product added successfully';
-      }else{
-         $message[] = 'could not add the product';
-      }
-   }
-
-};
-
-if(isset($_GET['delete'])){
-   $id = $_GET['delete'];
-   mysqli_query($conn, "DELETE FROM gallery WHERE id = $id");
-   header('location:blank-page.php');
-};
-
-?>
+ ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -39,30 +13,45 @@ if(isset($_GET['delete'])){
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Purple Admin</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="./assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="./assets/vendors/css/vendor.bundle.base.css">
-    
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/add.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/add.css">
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="./assets/images/favicon.ico" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
 
-  
   </head>
   <body>
     <div class="container-scroller">
-      <!-- partial:../../partials/_navbar.html -->
+      <div class="row p-0 m-0 proBanner" id="proBanner">
+        <div class="col-md-12 p-0 m-0">
+          <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
+            <div class="ps-lg-1">
+              <div class="d-flex align-items-center justify-content-between">
+                <p class="mb-0 font-weight-medium me-3 buy-now-text">Free 24/7 customer support, updates, and more with this template!</p>
+                <a href="https://www.bootstrapdash.com/product/purple-bootstrap-admin-template/?utm_source=organic&utm_medium=banner&utm_campaign=buynow_demo" target="_blank" class="btn me-2 buy-now-btn border-0">Get Pro</a>
+              </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-between">
+              <a href="https://www.bootstrapdash.com/product/purple-bootstrap-admin-template/"><i class="mdi mdi-home me-3 text-white"></i></a>
+              <button id="bannerClose" class="btn border-0 p-0">
+                <i class="mdi mdi-close text-white me-0"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- partial:partials/_navbar.html -->
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <a class="navbar-brand brand-logo" href="../index.html"><img src="./assets/images/logo.svg" alt="logo" /></a>
-          <a class="navbar-brand brand-logo-mini" href="./index.html"><img src="./assets/images/logo-mini.svg" alt="logo" /></a>
+          <a class="navbar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
           <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -82,7 +71,7 @@ if(isset($_GET['delete'])){
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="nav-profile-img">
-                  <img src="./assets/images/faces/face1.jpg" alt="image">
+                  <img src="assets/images/faces/face1.jpg" alt="image">
                   <span class="availability-status online"></span>
                 </div>
                 <div class="nav-profile-text">
@@ -112,7 +101,7 @@ if(isset($_GET['delete'])){
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item preview-item">
                   <div class="preview-thumbnail">
-                    <img src="./assets/images/faces/face4.jpg" alt="image" class="profile-pic">
+                    <img src="assets/images/faces/face4.jpg" alt="image" class="profile-pic">
                   </div>
                   <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
                     <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Mark send you a message</h6>
@@ -122,7 +111,7 @@ if(isset($_GET['delete'])){
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item preview-item">
                   <div class="preview-thumbnail">
-                    <img src="./assets/images/faces/face2.jpg" alt="image" class="profile-pic">
+                    <img src="assets/images/faces/face2.jpg" alt="image" class="profile-pic">
                   </div>
                   <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
                     <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Cregh send you a message</h6>
@@ -132,7 +121,7 @@ if(isset($_GET['delete'])){
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item preview-item">
                   <div class="preview-thumbnail">
-                    <img src="./assets/images/faces/face3.jpg" alt="image" class="profile-pic">
+                    <img src="assets/images/faces/face3.jpg" alt="image" class="profile-pic">
                   </div>
                   <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
                     <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Profile picture updated</h6>
@@ -208,7 +197,7 @@ if(isset($_GET['delete'])){
       </nav>
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
-        <!-- partial:../../partials/_sidebar.html -->
+        <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
             <li class="nav-item nav-profile">
@@ -218,10 +207,6 @@ if(isset($_GET['delete'])){
                   <span class="login-status online"></span>
                   <!--change to offline or busy as needed-->
                 </div>
-                <?php 
-                  if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
-
-                  ?>
                 <div class="nav-profile-text d-flex flex-column">
                   <span class="font-weight-bold mb-2"><?php echo $_SESSION['name']; ?></span>
                   <span class="text-secondary text-small">Project Manager</span>
@@ -263,89 +248,94 @@ if(isset($_GET['delete'])){
                 <i class="mdi mdi-phone menu-icon"></i>
               </a>
             </li>
+           
           
           </ul>
         </nav>
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
-          <div class="col-lg-12 grid-margin stretch-card">
+            <div class="page-header">
+              <h3 class="page-title">
+                <span class="page-title-icon bg-gradient-primary text-white me-2">
+                  <i class="mdi mdi-home"></i>
+                </span> Contacts
+              </h3>
+              <nav aria-label="breadcrumb">
+                <ul class="breadcrumb">
+                  <li class="breadcrumb-item active" aria-current="page">
+                    <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+
+            <div class="row">
+              <div class="col-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <div class="row">
-                      <div class="col-6">
-                        <h4 class="card-title">Images Table</h4>
-                      </div>
-                      <div class="col-6">
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add Images</button>
-                      </div>
+                    <h4 class="card-title">Recent Tickets</h4>
+                    <div class="table-responsive">
+                      <table class="table">
+                      
+                        <thead>
+                          <tr>
+                                <th> #ID</th>
+                                <th> Name </th>
+                                <th> Email </th>
+                                <th> Phone No </th>
+                                <th> Type of Function </th>
+                                <th> Location </th>
+                                <th> Date Of Function </th>
+                                <th> Message </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        
+                
+                        $sql = "SELECT * FROM contact";
+                        $result = $conn->query($sql);
+                        if($result->num_rows > 0){
+                            //output data for each row 
+                            while ($row = $result->fetch_assoc()){
+                                ?>
+                          <tr>
+                            <td> <?php echo $row["id"]; ?> </td>
+                            <td> <?php echo $row["f_name"]; ?> </td>
+                            <td> <?php echo $row["email"]; ?> </td>
+                            <td> <?php echo $row["contactno"]; ?> </td>
+                            <td> <?php echo $row["typeoffunc"]; ?> </td>
+                            <td> <?php echo $row["userlocation"]; ?> </td>
+                            <td> <?php echo $row["dateoffunc"]; ?> </td>
+                            <td> <?php echo $row["exmessage"]; ?> </td>
+                          </tr>
+                          <?php
+                            }
+                          } else{
+                              echo "0 results";
+                          }
+                      $conn->close();
+                      
+                          ?>
+                        </tbody>
+                      </table>
                     </div>
-                    <!--Pop up form start-->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Add Images To Gallery</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-                                <div class="mb-3">
-                                  <label for="recipient-name" class="col-form-label">Upload image</label>
-                                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="product_image" class="form-control box" required>
-                                  <br>
-                                  <input type="submit" name="add_product" class="btn btn-primary" value="Upload Image">
-                                </div>
-                              </form>
-                            </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!--Pop up form end-->
-
-                      <?php
-
-                        $select = mysqli_query($conn, "SELECT * FROM gallery");
-                        
-                      ?>
-                    
-                    <table class="table table-striped">
-                      <thead>
-                        
-                        <tr>
-                          <th> images </th>
-                        </tr>
-                      </thead>
-                      <?php while($row = mysqli_fetch_assoc($select)){ ?>
-                      <tbody>
-                     
-                        <tr>
-                          <td class="py-1">
-                          <img src="uploaded_img/<?php echo $row['image']; ?>" height="100" alt="">
-                          </td>
-                          <td>
-                             <a href="admin_update.php?edit=<?php echo $row['id']; ?>" class="btn"> <i class="fas fa-edit"></i> edit </a>
-                          </td>
-                          <td>
-                          <a href="blank-page.php?delete=<?php echo $row['id']; ?>" class="btn"> <i class="fas fa-trash"></i> delete </a>
-                          </td>
-                        </tr>
-                        
-                      </tbody>
-                      <?php } ?>
-                    </table>
                   </div>
                 </div>
               </div>
+            </div>
+         
+
+           
+         
+
           </div>
           <!-- content-wrapper ends -->
-          <!-- partial:../../partials/_footer.html -->
+          <!-- partial:partials/_footer.html -->
           <footer class="footer">
             <div class="container-fluid d-flex justify-content-between">
-              <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">2023 &copy; Malcolm Lismore . Designed by Youwan Peter.</span>
+            <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">2023 &copy; Malcolm Lismore . Designed by Youwan Peter.</span>
               <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> <a href="https://www.esoft.lk/" target="_blank">Esoft Metro Campus Colombo</a></span>
             </div>
           </footer>
@@ -357,38 +347,21 @@ if(isset($_GET['delete'])){
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
-    <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
+    <script src="assets/vendors/chart.js/Chart.min.js"></script>
+    <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
-    <script src="../../assets/js/off-canvas.js"></script>
-    <script src="../../assets/js/hoverable-collapse.js"></script>
-    <script src="../../assets/js/misc.js"></script>
+    <script src="assets/js/off-canvas.js"></script>
+    <script src="assets/js/hoverable-collapse.js"></script>
+    <script src="assets/js/misc.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
+    <script src="assets/js/dashboard.js"></script>
+    <script src="assets/js/todolist.js"></script>
     <!-- End custom js for this page -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-
-    <script>
-      var exampleModal = document.getElementById('exampleModal')
-      exampleModal.addEventListener('show.bs.modal', function (event) {
-        // Button that triggered the modal
-        var button = event.relatedTarget
-        // Extract info from data-bs-* attributes
-        var recipient = button.getAttribute('data-bs-whatever')
-        // If necessary, you could initiate an AJAX request here
-        // and then do the updating in a callback.
-        //
-        // Update the modal's content.
-        var modalTitle = exampleModal.querySelector('.modal-title')
-        var modalBodyInput = exampleModal.querySelector('.modal-body input')
-
-        modalTitle.textContent = 'Upload Images '
-        })
-    </script>
   </body>
 </html>
 <?php 
